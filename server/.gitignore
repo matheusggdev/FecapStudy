@@ -7,6 +7,9 @@ obj/
 # ── Depuração ──
 *.pdb
 
+# ── Credenciais (suba mysql_config.example.txt no lugar) ──
+mysql_config.txt
+
 # ── Dados gerados ao rodar o backend ──
 dados_estudo_local.json
 *.log
