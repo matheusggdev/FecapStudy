@@ -1,0 +1,47 @@
+classDiagram
+    direction TB
+
+    class Usuario {
+        <<abstract>>
+        -number id
+        -string nome
+        -string email
+        -string senha
+        +getId() number
+        +getNome() string
+        +getEmail() string
+        +autenticar(senhaDigitada) boolean
+        +obterTipoPerfil()* string
+        +gerarPainelResumo()* string
+    }
+
+    class Administrador {
+        -string cargo
+        +obterTipoPerfil() string
+        +gerarPainelResumo() string
+    }
+
+    class Responsavel {
+        -string parentesco
+        -Array~Discente~ discentes
+        +vincularDiscente(discente)
+        +obterTipoPerfil() string
+        +gerarPainelResumo() string
+    }
+
+    class Discente {
+        -string ra
+        -number xpTotal
+        -Array~SessaoEstudo~ historico
+        +adicionarXp(pontos)
+        +registrarEstudo(sessao)
+        +registrarEstudo(disciplina, minutos)
+        +registrarEstudo(disciplina, horaInicio, horaFim, paginas)
+        +obterTipoPerfil() string
+        +gerarPainelResumo() string
+    }
+
+    Usuario <|-- Administrador : herança
+    Usuario <|-- Responsavel : herança
+    Usuario <|-- Discente : herança
+    Responsavel "0..*" --> "0..*" Discente : acompanha (associação)

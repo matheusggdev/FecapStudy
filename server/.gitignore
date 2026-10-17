@@ -1,0 +1,13 @@
+# ── Compilação do código-fonte (recriado pelo dotnet build) ──
+Source/bin/
+Source/obj/
+bin/
+obj/
+
+# ── Depuração ──
+*.pdb
+
+# ── Dados gerados ao rodar o backend ──
+dados_estudo_local.json
+*.log
+logs/

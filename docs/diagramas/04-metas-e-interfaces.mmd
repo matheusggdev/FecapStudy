@@ -1,0 +1,44 @@
+classDiagram
+    direction LR
+
+    class IExportavelJson {
+        <<interface>>
+        +paraJson() string
+    }
+
+    class INotificador {
+        <<interface>>
+        +obterCanal() string
+        +enviarAlerta(destinatario, mensagem) boolean
+    }
+
+    class MetaEstudo {
+        -number metaMinutosSemana
+        -number minutosCumpridos
+        +getMinutosCumpridos() number
+        +registrarAvanco(minutos) boolean
+        +redefinirMeta(novaMeta)
+        +calcularPercentual() number
+        +estaCumprida() boolean
+        +paraJson() string
+    }
+
+    class SessaoEstudo {
+        <<abstract>>
+        +paraJson() string
+    }
+
+    class NotificadorEmail {
+        +obterCanal() string
+        +enviarAlerta(destinatario, mensagem) boolean
+    }
+
+    class NotificadorWhatsApp {
+        +obterCanal() string
+        +enviarAlerta(destinatario, mensagem) boolean
+    }
+
+    IExportavelJson <|.. MetaEstudo : implementa
+    IExportavelJson <|.. SessaoEstudo : implementa
+    INotificador <|.. NotificadorEmail : implementa
+    INotificador <|.. NotificadorWhatsApp : implementa

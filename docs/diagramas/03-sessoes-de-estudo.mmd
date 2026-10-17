@@ -1,0 +1,52 @@
+classDiagram
+    direction TB
+
+    class Disciplina {
+        -string codigo
+        -string nome
+        -string categoria
+        -number cargaHorariaSemanalHoras
+        +getNome() string
+        +getCargaHorariaSemanalHoras() number
+        +calcularCargaEmMinutos() number
+        +exibirResumo() string
+    }
+
+    class SessaoEstudo {
+        <<abstract>>
+        -Disciplina disciplina
+        -number duracaoMinutos
+        +getDisciplina() Disciplina
+        +getDuracaoMinutos() number
+        +obterModalidade()* string
+        +calcularXp()* number
+        +gerarFeedback() string
+        +paraJson() string
+    }
+
+    class SessaoPomodoro {
+        -number ciclosCompletos
+        +obterModalidade() string
+        +calcularXp() number
+        +gerarFeedback() string
+    }
+
+    class SessaoExercicios {
+        -number totalQuestoes
+        -number acertos
+        +obterModalidade() string
+        +calcularXp() number
+        +gerarFeedback() string
+    }
+
+    class SessaoLeitura {
+        -number paginasLidas
+        -boolean fezResumo
+        +obterModalidade() string
+        +calcularXp() number
+    }
+
+    SessaoEstudo <|-- SessaoPomodoro : herança
+    SessaoEstudo <|-- SessaoExercicios : herança
+    SessaoEstudo <|-- SessaoLeitura : herança
+    SessaoEstudo "0..*" --> "1" Disciplina : estuda (associação)

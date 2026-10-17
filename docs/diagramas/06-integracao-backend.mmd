@@ -1,0 +1,21 @@
+sequenceDiagram
+    autonumber
+    actor Aluno as Discente
+    participant Tela as Componente React
+    participant Dom as Classes de domínio
+    participant Cli as ClienteBackendEstudo
+    participant API as BackendEstudoAPI.exe
+    participant DB as MySQL
+
+    Aluno->>Tela: Preenche o formulário e clica em "Registrar Estudo"
+    Tela->>Dom: new SessaoPomodoro(disciplina, 25, 1)
+    Tela->>Dom: discente.registrarEstudo(sessao)
+    Tela->>Dom: meta.registrarAvanco(25)
+    Dom-->>Tela: XP e percentual atualizados
+    Tela->>Cli: salvarSessao(nomeDiscente, sessao)
+    Cli->>API: POST /api/sessoes (JSON)
+    API->>DB: INSERT em sessoes_estudo
+    DB-->>API: OK
+    API-->>Cli: 200 + JSON salvo
+    Cli-->>Tela: resposta
+    Tela-->>Aluno: Atualiza barra de progresso e histórico

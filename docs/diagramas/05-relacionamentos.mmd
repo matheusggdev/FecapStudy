@@ -1,0 +1,61 @@
+classDiagram
+    direction LR
+
+    class TrilhaEstudo {
+        -string titulo
+        -Administrador administrador
+        -Array~Disciplina~ disciplinas
+        +adicionarDisciplina(disciplina)
+        +calcularCargaHorariaTotal() number
+    }
+
+    class Administrador {
+        -string cargo
+    }
+
+    class Disciplina {
+        -string nome
+        -number cargaHorariaSemanalHoras
+    }
+
+    class PlanoEstudo {
+        -Array~ItemCronograma~ itens
+        +adicionarItem(diaSemana, minutos)
+        +calcularMinutosPlanejados() number
+    }
+
+    class ItemCronograma {
+        -string diaSemana
+        -number minutosPlanejados
+    }
+
+    class Discente {
+        -string ra
+        -number xpTotal
+    }
+
+    class ServicoAlertaResponsavel {
+        +avaliarDiscente(discente, meta, responsavel, notificador)
+    }
+
+    class MetaEstudo {
+        +calcularPercentual() number
+    }
+
+    class Responsavel {
+        +getEmail() string
+    }
+
+    class INotificador {
+        <<interface>>
+        +enviarAlerta(destinatario, mensagem) boolean
+    }
+
+    TrilhaEstudo "0..*" --> "1" Administrador : criada por (associação)
+    TrilhaEstudo "0..*" o-- "0..*" Disciplina : agregação
+    PlanoEstudo "1" *-- "0..*" ItemCronograma : composição
+    Discente "1" --> "0..1" PlanoEstudo : possui
+    ServicoAlertaResponsavel ..> Discente : dependência
+    ServicoAlertaResponsavel ..> MetaEstudo : dependência
+    ServicoAlertaResponsavel ..> Responsavel : dependência
+    ServicoAlertaResponsavel ..> INotificador : dependência

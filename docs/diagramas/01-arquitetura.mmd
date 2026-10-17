@@ -1,0 +1,22 @@
+flowchart LR
+    subgraph CLIENT["client/ — React + JavaScript"]
+        UI["Componentes React<br/>(telas)"]
+        DOM["Classes de domínio<br/>(POO em JS)"]
+        API["ClienteBackendEstudo<br/>(fetch)"]
+        UI --> DOM
+        UI --> API
+        API --> DOM
+    end
+
+    subgraph SERVER["server/ — C# (.NET)"]
+        EXE["BackendEstudoAPI.exe<br/>http://localhost:5080"]
+    end
+
+    subgraph DADOS["Persistência"]
+        DB[("MySQL<br/>fecap_estudo")]
+        JSON[["dados_estudo_local.json<br/>(fallback)"]]
+    end
+
+    API -->|HTTP + JSON| EXE
+    EXE --> DB
+    EXE -.->|sem MySQL| JSON
