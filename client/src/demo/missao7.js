@@ -21,10 +21,12 @@ console.log('Meta do Lucas:', carlos.obterMeta(lucas).getMetaMinutosSemana(), 'm
 const poo = new Disciplina('ADS201', 'Programação Orientada a Objetos', 'Computação', 4)
 const bd = new Disciplina('ADS202', 'Banco de Dados', 'Dados', 4)
 const ana = new Administrador(3, 'Ana Souza', 'ana@fecap.br', 'admin', 'Coordenação PI')
-let trilha = new TrilhaEstudo('Trilha 2º Semestre ADS', ana)
-trilha.adicionarDisciplina(poo)
-trilha.adicionarDisciplina(bd)
-console.log(trilha.exibirResumo())
 
-trilha = null // a trilha "morre"...
+{
+  const trilha = new TrilhaEstudo('Trilha 2º Semestre ADS', ana)
+  trilha.adicionarDisciplina(poo)
+  trilha.adicionarDisciplina(bd)
+  console.log(trilha.exibirResumo())
+} // fora deste bloco a trilha deixa de existir...
+
 console.log('...mas a disciplina continua existindo:', poo.exibirResumo())
