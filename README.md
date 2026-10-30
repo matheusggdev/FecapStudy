@@ -77,6 +77,7 @@ fecapstudy/
 │   │   │       ├── SessaoExercicios.js
 │   │   │       └── SessaoLeitura.js
 │   │   ├── contratos/                   # "Interfaces" em JS
+│   │   │   ├── contrato.js              # implementa() / garantirImplementacao()
 │   │   │   ├── INotificador.js
 │   │   │   └── IExportavelJson.js
 │   │   ├── servicos/
@@ -88,19 +89,31 @@ fecapstudy/
 │   │   │   ├── PainelPerfil.jsx
 │   │   │   ├── FormularioSessao.jsx
 │   │   │   ├── BarraProgresso.jsx
-│   │   │   └── HistoricoSessoes.jsx
+│   │   │   ├── HistoricoSessoes.jsx
+│   │   │   ├── PainelResponsavel.jsx
+│   │   │   ├── PainelTrilha.jsx
+│   │   │   ├── PainelServidor.jsx
+│   │   │   ├── StatusServidor.jsx
+│   │   │   └── Aviso.jsx
+│   │   ├── dados/
+│   │   │   └── cenario.js               # objetos de exemplo usados pela tela
+│   │   ├── demo/                        # "programa principal" de cada missão
+│   │   │   ├── missao1.js … missao8.js
 │   │   ├── App.jsx
-│   │   └── main.jsx
-│   ├── .env.example
+│   │   ├── App.css
+│   │   ├── main.jsx
+│   │   └── index.css
 │   ├── index.html
 │   ├── package.json
 │   └── vite.config.js
 │
-├── server/                              # Backend — C# (fornecido pronto)
-│   ├── BackendEstudoAPI.exe
+├── server/                              # Backend — C# (fornecido pelo professor)
+│   ├── Source/                          # código-fonte (Program.cs + .csproj)
+│   ├── BackendEstudoAPI.exe             # + .dll e .json do executável
 │   ├── iniciar_backend.bat
-│   ├── mysql_config.txt
-│   └── dados_estudo_local.json          # gerado no modo fallback
+│   ├── banco_estudo.sql
+│   ├── mysql_config.example.txt         # copie para mysql_config.txt
+│   └── .gitignore
 │
 ├── docs/
 │   └── diagramas/                       # Fontes editáveis dos diagramas
@@ -408,7 +421,7 @@ classDiagram
     TrilhaEstudo "0..*" --> "1" Administrador : criada por (associação)
     TrilhaEstudo "0..*" o-- "0..*" Disciplina : agregação
     PlanoEstudo "1" *-- "0..*" ItemCronograma : composição
-    Discente "1" --> "0..1" PlanoEstudo : possui
+    PlanoEstudo "0..1" --> "1" Discente : pertence a (associação)
     ServicoAlertaResponsavel ..> Discente : dependência
     ServicoAlertaResponsavel ..> MetaEstudo : dependência
     ServicoAlertaResponsavel ..> Responsavel : dependência
@@ -517,8 +530,9 @@ function registrar(sessao) {
 
 ### 1. server (C#)
 
-1. Entre em `server/` e dê duplo-clique em **`iniciar_backend.bat`** (ou `BackendEstudoAPI.exe`).
-2. Abra **http://localhost:5080** para ver o painel de diagnóstico.
+1. Em `server/`, copie `mysql_config.example.txt` para **`mysql_config.txt`** (e coloque sua senha do MySQL, se tiver).
+2. Dê duplo-clique em **`iniciar_backend.bat`** (ou `BackendEstudoAPI.exe`). É preciso ter o **runtime do .NET 10** instalado.
+3. Abra **http://localhost:5080** para ver o painel de diagnóstico.
 
 **MySQL (opcional):** o server lê `server/mysql_config.txt`:
 
@@ -537,21 +551,30 @@ Requisito: **Node.js 18+**.
 ```bash
 cd client
 npm install
-cp .env.example .env     # no Windows: copy .env.example .env
 npm run dev
 ```
 
 Acesse **http://localhost:5173**.
 
-Conteúdo do `client/.env.example`:
+### 3. Testar as missões no terminal
 
+Cada missão de domínio (1 a 8) tem um "programa principal" que roda direto no Node, sem abrir a tela:
+
+```bash
+cd client
+node src/demo/missao1.js   # troque o número: missao1.js … missao8.js
 ```
-VITE_API_URL=http://localhost:5080
-```
 
-No código, use `import.meta.env.VITE_API_URL` em vez de deixar a URL fixa. O CORS do server já está liberado para qualquer origem.
+### 4. Testar a integração
 
-### 3. .gitignore sugerido
+1. Com o server rodando, abra o client e registre uma sessão.
+2. A janela preta do backend mostra uma linha como `POST /api/sessoes -> Lucas Silva estudou ...`.
+3. Clique em **Carregar Histórico do Servidor / Relatório** para ver os dados gravados no banco.
+4. Clique uma vez em **Redefinir meta** para gravar a meta do Lucas no servidor (sem isso o relatório usa a meta padrão de 180 min).
+
+Por padrão o client acessa o server em `http://localhost:5080`. Para usar outra URL, crie `client/.env` com `VITE_API_URL=http://outro-endereco:porta`. O CORS do server já está liberado para qualquer origem.
+
+### 5. .gitignore sugerido
 
 ```gitignore
 # client
@@ -649,31 +672,31 @@ export class ClienteBackendEstudo {
 
 ## 🗺 Roteiro de desenvolvimento (Missões 1 a 10)
 
-- [ ] **Missão 1 — Abstração, Classes e Objetos:** `Disciplina` + 3 instâncias reais do semestre.
-- [ ] **Missão 2 — Encapsulamento:** `MetaEstudo` com campos `#privados`, `registrarAvanco` e `redefinirMeta` validados.
-- [ ] **Missão 3 — Classe Abstrata e Herança:** `Usuario` abstrata → `Administrador`, `Responsavel`, `Discente`.
-- [ ] **Missão 4 — Polimorfismo Dinâmico:** as 3 sessões em um array percorrido sem `if` por tipo.
-- [ ] **Missão 5 — Polimorfismo Estático:** `registrarEstudo` com 3 formas de chamada em `Discente`.
-- [ ] **Missão 6 — Interfaces:** `INotificador` (Email, WhatsApp) e `IExportavelJson`.
-- [ ] **Missão 7 — Associação e Agregação:** `Responsavel.vincularDiscente` e `TrilhaEstudo.adicionarDisciplina`.
-- [ ] **Missão 8 — Composição e Dependência:** `PlanoEstudo` cria `ItemCronograma`; `ServicoAlertaResponsavel.avaliarDiscente`.
-- [ ] **Missão 9 — Interface React:** painel de perfil, formulário de sessão, barra de progresso, histórico e botão "Notificar Responsável".
-- [ ] **Missão 10 — Integração:** `ClienteBackendEstudo` com `POST /api/sessoes` e botão para carregar histórico/relatório do server.
+- [x] **Missão 1 — Abstração, Classes e Objetos:** `Disciplina` + 3 instâncias reais do semestre.
+- [x] **Missão 2 — Encapsulamento:** `MetaEstudo` com campos `#privados`, `registrarAvanco` e `redefinirMeta` validados.
+- [x] **Missão 3 — Classe Abstrata e Herança:** `Usuario` abstrata → `Administrador`, `Responsavel`, `Discente`.
+- [x] **Missão 4 — Polimorfismo Dinâmico:** as 3 sessões em um array percorrido sem `if` por tipo.
+- [x] **Missão 5 — Polimorfismo Estático:** `registrarEstudo` com 3 formas de chamada em `Discente`.
+- [x] **Missão 6 — Interfaces:** `INotificador` (Email, WhatsApp) e `IExportavelJson`.
+- [x] **Missão 7 — Associação e Agregação:** `Responsavel.vincularDiscente` e `TrilhaEstudo.adicionarDisciplina`.
+- [x] **Missão 8 — Composição e Dependência:** `PlanoEstudo` cria `ItemCronograma`; `ServicoAlertaResponsavel.avaliarDiscente`.
+- [x] **Missão 9 — Interface React:** painel de perfil, formulário de sessão, barra de progresso, histórico e botão "Notificar Responsável".
+- [x] **Missão 10 — Integração:** `ClienteBackendEstudo` com `POST /api/sessoes` e botão para carregar histórico/relatório do server.
 
 ---
 
 ## ✅ Checklist de entrega
 
-- [ ] `Disciplina` modelada e instanciada.
-- [ ] `MetaEstudo` e `Usuario` com campos privados e validações.
-- [ ] `Usuario` abstrata herdada pelos 3 perfis (bloqueio com `new.target`).
-- [ ] 3 modalidades de `SessaoEstudo` sobrescrevendo XP e feedback.
-- [ ] `registrarEstudo` com 3 formas de chamada.
-- [ ] `INotificador` e `IExportavelJson` implementadas e usadas.
-- [ ] Associação, agregação, composição e dependência presentes no código.
-- [ ] Classes de domínio separadas dos componentes React.
-- [ ] Tela enviando `POST /api/sessoes` para o server.
-- [ ] Teste de integração: a sessão aparece no terminal do server e em `/api/sessoes` ou `/api/relatorio/{nome}`.
+- [x] `Disciplina` modelada e instanciada.
+- [x] `MetaEstudo` e `Usuario` com campos privados e validações.
+- [x] `Usuario` abstrata herdada pelos 3 perfis (bloqueio com `new.target`).
+- [x] 3 modalidades de `SessaoEstudo` sobrescrevendo XP e feedback.
+- [x] `registrarEstudo` com 3 formas de chamada.
+- [x] `INotificador` e `IExportavelJson` implementadas e usadas.
+- [x] Associação, agregação, composição e dependência presentes no código.
+- [x] Classes de domínio separadas dos componentes React.
+- [x] Tela enviando `POST /api/sessoes` para o server.
+- [x] Teste de integração: a sessão aparece no terminal do server e em `/api/sessoes` ou `/api/relatorio/{nome}`.
 
 ---
 

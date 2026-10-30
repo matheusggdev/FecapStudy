@@ -54,7 +54,7 @@ classDiagram
     TrilhaEstudo "0..*" --> "1" Administrador : criada por (associação)
     TrilhaEstudo "0..*" o-- "0..*" Disciplina : agregação
     PlanoEstudo "1" *-- "0..*" ItemCronograma : composição
-    Discente "1" --> "0..1" PlanoEstudo : possui
+    PlanoEstudo "0..1" --> "1" Discente : pertence a (associação)
     ServicoAlertaResponsavel ..> Discente : dependência
     ServicoAlertaResponsavel ..> MetaEstudo : dependência
     ServicoAlertaResponsavel ..> Responsavel : dependência
