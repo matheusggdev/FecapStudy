@@ -546,7 +546,7 @@ Server=localhost;Port=3306;Database=fecap_estudo;Uid=root;Pwd=;
 
 ### 2. client (React)
 
-Requisito: **Node.js 18+**.
+Requisito: **Node.js 20.19+** (ou 22.13+).
 
 ```bash
 cd client
@@ -706,6 +706,6 @@ export class ClienteBackendEstudo {
 |---|---|---|
 | Matheus Gajewski de Melo | 26029468 | Desenvolvimento |
 
-**Disciplina:** Programação Orientada a Objetos — FECAP
-**Professor(a):** Adriano Valente
-**Semestre:** 2026/2
+- **Disciplina:** Programação Orientada a Objetos — FECAP
+- **Professor:** Adriano Valente
+- **Semestre:** 2026/2
