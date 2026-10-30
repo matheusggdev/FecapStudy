@@ -203,3 +203,72 @@ button:disabled {
 .aviso-erro {
   background: var(--erro);
 }
+
+/* ── Servidor (Missão 10) ────────────────────────────── */
+.status {
+  font-size: 0.85rem;
+  padding: 4px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--borda);
+  color: var(--texto-suave);
+}
+
+.status.online {
+  border-color: var(--sucesso);
+  color: var(--sucesso);
+}
+
+.status.offline {
+  border-color: var(--erro);
+  color: var(--erro);
+}
+
+.linha.entre {
+  justify-content: space-between;
+}
+
+.resumo-servidor {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 8px;
+}
+
+.resumo-servidor div {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  border-radius: 8px;
+  background: var(--destaque);
+}
+
+.resumo-servidor strong {
+  font-size: 1.3rem;
+}
+
+.resumo-servidor span {
+  font-size: 0.85rem;
+  color: var(--texto-suave);
+}
+
+.tabela-rolagem {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+th,
+td {
+  text-align: left;
+  padding: 6px 8px;
+  border-bottom: 1px solid var(--borda);
+  white-space: nowrap;
+}
+
+th {
+  color: var(--texto-suave);
+  font-weight: 600;
+}
