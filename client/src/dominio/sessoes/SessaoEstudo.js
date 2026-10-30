@@ -3,6 +3,7 @@ import { Disciplina } from '../Disciplina.js'
 /**
  * Missão 4 — Classe abstrata base das modalidades de estudo.
  * Cada subclasse sabe calcular o próprio XP (polimorfismo dinâmico).
+ * Missão 6 — Implementa a interface IExportavelJson (paraJson).
  */
 export class SessaoEstudo {
   #disciplina
@@ -45,5 +46,16 @@ export class SessaoEstudo {
   gerarFeedback() {
     return `${this.obterModalidade()} em ${this.#disciplina.getNome()} ` +
       `(${this.#duracaoMinutos} min) -> +${this.calcularXp()} XP`
+  }
+
+  /** IExportavelJson: dados no formato que o backend espera em POST /api/sessoes. */
+  paraJson() {
+    return JSON.stringify({
+      disciplina: this.#disciplina.getNome(),
+      tipoModalidade: this.obterModalidade(),
+      duracaoMinutos: this.#duracaoMinutos,
+      xpGanho: this.calcularXp(),
+      resumoFeedback: this.gerarFeedback(),
+    })
   }
 }

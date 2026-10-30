@@ -2,6 +2,7 @@
  * Missão 2 — Encapsulamento.
  * A meta semanal só pode ser alterada por métodos que validam as regras.
  * Não existe setter livre para minutosCumpridos.
+ * Missão 6 — Implementa a interface IExportavelJson (paraJson).
  */
 export class MetaEstudo {
   static META_MINIMA = 30
@@ -48,5 +49,13 @@ export class MetaEstudo {
 
   estaCumprida() {
     return this.calcularPercentual() >= 100
+  }
+
+  /** IExportavelJson: dados no formato que o backend espera em POST /api/metas. */
+  paraJson() {
+    return JSON.stringify({
+      metaMinutosSemana: this.#metaMinutosSemana,
+      minutosCumpridos: this.#minutosCumpridos,
+    })
   }
 }
