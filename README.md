@@ -704,10 +704,8 @@ export class ClienteBackendEstudo {
 
 | Nome | RA | Responsabilidade |
 |---|---|---|
-| | | |
-| | | |
-| | | |
+| Matheus Gajewski de Melo | 26029468 | Desenvolvimento |
 
 **Disciplina:** Programação Orientada a Objetos — FECAP
-**Professor(a):** ________
+**Professor(a):** Adriano Valente
 **Semestre:** 2026/2
